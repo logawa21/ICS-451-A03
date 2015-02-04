@@ -32,10 +32,10 @@ void print_buffer (char * buffer, int num_bytes) {
 //sp->x is 0x12, sp->y is 0x34, sp->z is 0x5678, sp->w is 0x9abcdef0
 void print_struct (struct hw3 * sp) {
     
-    printf("sp->x is %02x, ", sp->x & 0xff);
-    printf("sp->x is %02x, ", sp->y & 0xff);
-    printf("sp->z is %x, ", htons(sp->z));
-    printf("sp->w is %x  ", htonl(sp->w));
+    printf("sp->x is %02x, ", sp->x        & 0xff);
+    printf("sp->x is %02x, ", sp->y        & 0xff);
+    printf("sp->z is %04x, ", htons(sp->z) & 0xffff);
+    printf("sp->w is %08x  ", htonl(sp->w) & 0xffffffff);
     printf("\n");
 }
 
