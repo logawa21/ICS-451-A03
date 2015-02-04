@@ -20,9 +20,9 @@ char buffer [] = { 0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc, 0xde, 0xf0 };
 struct hw3 * sp = (struct hw3 *) buffer;
 
 void print_buffer (char * buffer, int num_bytes) {
-    
+    int i;
     // prints all the bytes (in hex) in the buffer
-    for(int i = 0; i<num_bytes; i++)
+    for(i = 0; i<num_bytes; i++)
         printf("%02x ", buffer[i] & 0xff);
     
     printf("\n");
@@ -43,7 +43,7 @@ int main(){
     
     // get the size of the buffer array
     int num_bytes_buf = sizeof(buffer);
-    int num_bytes_sp  = sizeof(sp);
+    int num_bytes_sp  = sizeof(*sp);
     
     //call function print_buffer()
     print_buffer(&buffer[0], num_bytes_buf);
