@@ -1,46 +1,59 @@
+//
+//  Structs, Pointers, and Buffers
+//
+//  Created by Lauren Ogawa on 2/2/15.
+//  Copyright (c) 2015 Lauren Ogawa. All rights reserved.
+//
+
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <netinet/in.h>  /* gives htons and friends */
 
-// create a pointer p and poin it to the first character of the argument
+struct hw3 {
+  char 	x;
+  char 	y;
+  short z;
+  int 	w;
+};
 
-// for each string:
-// find out the length L of the string that p refers to (not including "/")
-// use malloc to allocate buffer B of length L+1
-// check the value returned by malloc is not NULL. If it is print message and exit
+char buffer [] = { 0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc, 0xde, 0xf0 };
+//char buffer [] = {0x89};
 
-// this isn't needed but it is a refernce on what goes where
-// for the strtok (string to split, what character defines where we split)
-//char *strtok(char *s, const char *delim);
+//combining the struct with the buffer array
+struct hw3 * sp = (struct hw3 *) buffer;
 
-int main (int argc, char ** argv) {
+void print_buffer (char * buffer, int num_bytes) {
 
-	if (argc != 2) {
-		//not sure about this wording....
-		printf("Error message.\nYou need to have one argument.");
-		exit(0);
-	}
-	// 
-	if (argc == 2) {
+	// prints all the bytes (in hex) in the buffer
+	for(int i = 0; i<num_bytes; i++)
+		//printf("%#x ", buffer[i] & 0xff);
+		printf("%02x ", buffer[i] & 0xff);
+	printf("\n");
+}
 
-		// used this website as a reference for splitting strings
-		// into tokens with the strtok function
-		// http://www.tutorialspoint.com/ansi_c/c_strtok.htm
-		char * split;
+// takes a single parameter, a pointer to struct hw3
+//sp->x is 0x12, sp->y is 0x34, sp->z is 0x5678, sp->w is 0x9abcdef0
+void print_struct (struct hw3 * sp) {
+	printf("sp->x is %#x\n", sp->x & 0xff);
+	printf("sp->y is %#x\n", sp->y & 0xff);
+	printf("sp->z is %#x\n", ntohs(sp->z));
+	printf("sp->w is %#x\n", ntohl(sp->w));
+}
 
-		//printf("Splitting string \"%s\" into tokens:\n", argv[1]);
-		split = strtok (argv[1], "/");
+int main(){
 
-		while (split != NULL) {
+	// get the size of the buffer array
+	int num_bytes = sizeof(buffer);
 
-			// used this site as reference for (unsigned)strlen to
-			// get the string length + 1
-			// http://www.cplusplus.com/reference/cstring/strlen/
-			printf("%s (%u)\n", split, (unsigned)strlen(split) + 1);
-			split = strtok (NULL, "/");
-		}
+	//call function print_buffer()
+	print_buffer(&buffer[0], num_bytes);
 
-		//Tested if we were able to get the command line argument
-		//printf("Testing.\nYou wrote: %s\n", argv[1]);
-	}
+	// declare hw1 of type hw3
+	struct hw3 hw1;
+
+	print_struct(&hw1);
+
+	//printf("test %#x\n", hw1.x);
+	//printf("%lu\n", sizeof(hw1)/2);
+
+	return 0;
 }
